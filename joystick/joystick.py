@@ -35,6 +35,9 @@ done=0
 # create a timer to control how often the screen updates
 clock = pygame.time.Clock()
 
+xPos = 305
+yPos = 305
+
 #let's see the end result
 while done == 0:
     screen.fill(black)
@@ -44,8 +47,8 @@ while done == 0:
         if event.type == pygame.QUIT: # if we click close ...
             done=1 # this will cause the loop to finish.
 
-    ballrect.left = 305
-    ballrect.top = 305
+    ballrect.left = xPos
+    ballrect.top = yPos
 
     screen.blit(white_surf, whiterect)
     screen.blit(ball_surf, ballrect)
