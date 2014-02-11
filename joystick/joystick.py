@@ -26,6 +26,7 @@ whitebackground = pygame.draw.rect(white_surf, white, (0, 0, 610, 610))
 # create surfaces for the bat and ball
 ball_surf = pygame.Surface((30,30))
 ballrect = ball_surf.get_rect()
+ball_surf.fill(white)
 ball = pygame.draw.circle(ball_surf, red, [15, 15], 15)
 
 # loop until the user clicks the close button
