@@ -46,6 +46,27 @@ while done == 0:
     for event in pygame.event.get(): # if we click something ...
         if event.type == pygame.QUIT: # if we click close ...
             done=1 # this will cause the loop to finish.
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                done=1 # Be IDLE friendly!
+
+    keys=pygame.key.get_pressed()
+    if keys[K_LEFT]:
+        xPos-=1
+        if xPos==14:
+            xPos=15
+    if keys[K_RIGHT]:
+        xPos+=1
+        if xPos==596:
+            xPos=595
+    if keys[K_UP]:
+        yPos-=1
+        if yPos==14:
+            yPos=15
+    if keys[K_DOWN]:
+        yPos+=1
+        if yPos==596:
+            yPos=595
 
     ballrect.left = xPos
     ballrect.top = yPos
