@@ -1,6 +1,25 @@
 import os, pygame
 from pygame.locals import *
 
+class ReadInput:
+    def __init__(self):
+        self.horizontal = 0
+        self.vertical = 0
+    def update(self):
+        keys=pygame.key.get_pressed()
+        if keys[K_LEFT]:
+            self.horizontal=-1
+        elif keys[K_RIGHT]:
+            self.horizontal=1
+        else:
+            self.horizontal=0
+        if keys[K_UP]:
+            self.vertical=-1
+        elif keys[K_DOWN]:
+            self.vertical=1
+        else:
+            self.vertical=0
+
 pygame.init()
 
 # set the width and height of the screen
@@ -38,6 +57,8 @@ clock = pygame.time.Clock()
 xPos = 305
 yPos = 305
 
+motion = ReadInput()
+
 #let's see the end result
 while done == 0:
     screen.fill(black)
@@ -50,23 +71,17 @@ while done == 0:
             if event.key == pygame.K_ESCAPE:
                 done=1 # Be IDLE friendly!
 
-    keys=pygame.key.get_pressed()
-    if keys[K_LEFT]:
-        xPos-=1
-        if xPos==14:
-            xPos=15
-    if keys[K_RIGHT]:
-        xPos+=1
-        if xPos==596:
-            xPos=595
-    if keys[K_UP]:
-        yPos-=1
-        if yPos==14:
-            yPos=15
-    if keys[K_DOWN]:
-        yPos+=1
-        if yPos==596:
-            yPos=595
+    motion.update()
+    xPos+=motion.horizontal
+    yPos+=motion.vertical
+    if xPos==14:
+        xPos=15
+    if xPos==596:
+        xPos=595
+    if yPos==14:
+        yPos=15
+    if yPos==596:
+        yPos=595
 
     ballrect.left = xPos
     ballrect.top = yPos
