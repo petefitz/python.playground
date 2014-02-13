@@ -1,10 +1,23 @@
 import os, pygame
 from pygame.locals import *
 
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+
+pinHoriz = 18
+pinVert = 16
+pinButton = 22
+
+GPIO.setup(pinHoriz , GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(pinVert  , GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(pinButton, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+
 class ReadInput:
     def __init__(self):
         self.horizontal = 0
         self.vertical = 0
+        self.button = 0
     def update(self):
         keys=pygame.key.get_pressed()
         if keys[K_LEFT]:
@@ -19,6 +32,31 @@ class ReadInput:
             self.vertical=1
         else:
             self.vertical=0
+
+class ReadJoystick:
+    def __init__(self):
+        self.horizontal = 0
+        self.vertical = 0
+        self.button = 0
+    def update(self):
+        keys=pygame.key.get_pressed()
+        if keys[K_LEFT]:
+            self.horizontal=-1
+        elif keys[K_RIGHT]:
+            self.horizontal=1
+        else:
+            self.horizontal=0
+        if keys[K_UP]:
+            self.vertical=-1
+        elif keys[K_DOWN]:
+            self.vertical=1
+        else:
+            self.vertical=0
+
+        if GPIO.input(pinButton) == GPIO.LOW:
+            self.button = 1
+        else:
+            self.button = 0
 
 pygame.init()
 
@@ -57,7 +95,7 @@ clock = pygame.time.Clock()
 xPos = 305
 yPos = 305
 
-motion = ReadInput()
+motion = ReadJoystick()
 
 #let's see the end result
 while done == 0:
@@ -82,7 +120,10 @@ while done == 0:
         yPos=15
     if yPos==596:
         yPos=595
-
+    if motion.button == 1:
+        xPos = 305
+        yPos = 305
+        
     ballrect.left = xPos
     ballrect.top = yPos
 
